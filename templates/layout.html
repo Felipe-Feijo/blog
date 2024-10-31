@@ -19,6 +19,7 @@
         <a class="nav-element" href="/about">About</a>
         <a class="nav-element" href="{% url 'posts:list' %}">Posts</a>
         {% if user.is_authenticated %}
+            <a class="nav-element" href="{% url 'posts:new-post' %}">Create</a>
             <form class="logout" action="{% url 'users:logout' %}" method="post">
                 {% csrf_token %}
                 <button class="logout-button">Logout</buttonm>
