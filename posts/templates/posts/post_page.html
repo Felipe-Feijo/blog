@@ -18,5 +18,26 @@
         
         <p>{{ post.body }}</p>
     </section>
+    <section>
+        <header class="comentarios">
+            <h3>Comentários</h3>
+            <a href="{% url 'posts:comment' post.slug %}"><button class="comment-button">Comentar</button></a>
+        </header>
+        <ul>
+            {% if comments %}
+                {% for comment in comments %}
+                    <figure>
+                        <figcaption>{{ comment.author }} em {{ comment.date }}</figcaption>
+                        <blockquote>
+                            - {{ comment.body }}
+                        </blockquote>
+                        
+                    </figure>
+                {% endfor %}
+            {% else %}
+                <p>Este post não possui comentários</p>
+            {% endif %}
+        </ul>
+    </section>
 {% endblock %}
 

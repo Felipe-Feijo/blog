@@ -77,3 +77,11 @@ header {
     background:none;
     font-size:2.5rem;
 }
+
+.comentarios {
+    background-color: black;
+}
+
+.comment-button {
+   font-size: 18px; 
+}

@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Comentar em: {{ post.title }}</h2>
+
+<form action="{% url 'posts:comment' post.slug %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="comment-button" type="submit">Comentar</button>
+</form>
+
+<p><a href="{% url 'posts:page' post.slug %}">Voltar para o post</a></p>
+{% endblock content %}

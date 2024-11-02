@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required, permission_required
 from. import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .forms import CommentForm
 
 # Create your views here.
 
 #ListView
 @login_required(login_url="/users/login/")
-def posts_lists(request):
+def posts_list(request):
     posts = Post.objects.all().order_by('-date')
     return render(request, 'posts/posts_list.html', { 'posts': posts})
 
@@ -18,7 +19,8 @@ def posts_lists(request):
 def post_page(request, slug):
     #post = Post.objects.get(slug=slug)
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'posts/post_page.html', { 'post': post })
+    comments = Comment.objects.filter(post=post.id).order_by('-date')
+    return render(request, 'posts/post_page.html', { 'post': post, 'comments':comments })
 
 #CreateView
 @login_required(login_url="/users/login/")
@@ -59,3 +61,18 @@ def post_delete(request, slug):
         post.delete()
         return HttpResponseRedirect(reverse("posts:list"))
     return render(request, 'posts/post_delete.html', { 'post':post })
+
+def create_comment(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_author = request.user
+            comment_body = form.cleaned_data['body']
+            comment = Comment(author=comment_author, body=comment_body, post=post)
+            comment.save()
+            return HttpResponseRedirect(
+                reverse('posts:page', args=(post.slug, )))
+    else:
+        form = CommentForm()
+    return render(request, 'posts/comment.html', {'form': form, 'post': post })
