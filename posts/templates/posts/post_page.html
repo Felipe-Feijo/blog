@@ -8,7 +8,14 @@
     <section>
         <img class="banner" src="{{ post.banner.url }}" alt="{{ post.title }}"/>
         <h1>{{ post.title }}</h1>
-        <p>{{ post.date }}</p>
+        <p>{{ post.date }} por {{ post.author }}</p>
+        {% if request.user == post.author or request.user.is_superuser%}
+            <ul>
+                <li><a href="{% url 'posts:update' post.slug %}">Editar</a></li>
+                <li><a href="{% url 'posts:delete' post.slug %}">Excluir</a></li>
+            </ul>
+        {% endif %}
+        
         <p>{{ post.body }}</p>
     </section>
 {% endblock %}

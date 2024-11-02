@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+<form action="{% url 'posts:delete' post.slug %}" method="post">
+  {% csrf_token %}
+  <p>
+    Você tem certeza que deseja excluir o post "{{ post.title }}"?
+  </p>
+  <button type="submit">Excluir
+</form>
+{% endblock content %}

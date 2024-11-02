@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {{ post.title }} 
+{% endblock %}
+
+{% block content %}
+<h2>Atualizar Post: {{ post.title }}</h2>
+<form method="post" action="{% url 'posts:update' post.slug%}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+      <label for="id_title">Título:
+      <input type="text" name="title" id="id_title" value="{{ post.title }}" />
+    </p>
+    <p>
+        <label for=" id_body">
+        <input type="text" name="body" id="id_body" value="{{ post.body }}" />
+    </p>
+    <button type="submit">Atualizarbutton
+</form>
+
+{% endblock content %}
