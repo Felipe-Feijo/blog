@@ -9,6 +9,12 @@
         <img class="banner" src="{{ post.banner.url }}" alt="{{ post.title }}"/>
         <h1>{{ post.title }}</h1>
         <p>{{ post.date }} por {{ post.author }}</p>
+        <div class="category-div">
+        {% for category in categories %}
+            <div class="category">{{ category.name }}</div>
+        {% endfor %}
+        </div>
+
         {% if request.user == post.author or request.user.is_superuser%}
             <ul>
                 <li><a href="{% url 'posts:update' post.slug %}">Editar</a></li>

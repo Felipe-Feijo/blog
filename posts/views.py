@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from django.contrib.auth.decorators import login_required, permission_required
 from. import forms
 from django.http import HttpResponseRedirect
@@ -20,7 +20,8 @@ def post_page(request, slug):
     #post = Post.objects.get(slug=slug)
     post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post.id).order_by('-date')
-    return render(request, 'posts/post_page.html', { 'post': post, 'comments':comments })
+    categories = post.category.all()
+    return render(request, 'posts/post_page.html', { 'post': post, 'comments':comments, 'categories':categories })
 
 #CreateView
 @login_required(login_url="/users/login/")
@@ -30,6 +31,8 @@ def post_new(request):
         if form.is_valid():
             newpost = form.save(commit=False)
             newpost.author = request.user
+            newpost.save()
+            newpost.category.set(form.cleaned_data.get("category"))
             newpost.save()
             return redirect("posts:list")
     else:
