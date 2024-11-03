@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Categories
+{% endblock %}
+
+
+{% block content %}
+    <section>
+        <h1>Categorias</h1>
+        <div class="category-div">
+            {% for category in categories %}
+                <div class="category"><a class="category-link" href="{% url 'posts:category' category.name %}">{{ category.name }}</div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

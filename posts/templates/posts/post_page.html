@@ -11,7 +11,7 @@
         <p>{{ post.date }} por {{ post.author }}</p>
         <div class="category-div">
         {% for category in categories %}
-            <div class="category">{{ category.name }}</div>
+            <div class="category"><a class="category-link" href="{% url 'posts:category' category.name %}">{{ category.name }}</div>
         {% endfor %}
         </div>
 

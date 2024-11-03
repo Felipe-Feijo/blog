@@ -55,7 +55,6 @@ def post_update(request, slug):
 
 #DeleteView
 @login_required(login_url="/users/login/")
-#@permission_required('posts.delete_post')
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
@@ -65,6 +64,7 @@ def post_delete(request, slug):
         return HttpResponseRedirect(reverse("posts:list"))
     return render(request, 'posts/post_delete.html', { 'post':post })
 
+@login_required(login_url="/users/login/")
 def create_comment(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
@@ -79,3 +79,15 @@ def create_comment(request, slug):
     else:
         form = CommentForm()
     return render(request, 'posts/comment.html', {'form': form, 'post': post })
+
+@login_required(login_url="/users/login/")
+def CategoryView(request, cats):
+    cat = get_object_or_404(Category, name=cats)
+    cat_id = Category.objects.get(name=cats).id
+    category_posts = Post.objects.filter(category=cat_id)
+    return render(request, 'posts/categories.html', { 'cats':cats, 'category_posts':category_posts })
+
+@login_required(login_url="/users/login/")
+def CategoriesListView(request):
+    categories = Category.objects.all()
+    return render(request, 'posts/categories_list.html', { 'categories':categories })

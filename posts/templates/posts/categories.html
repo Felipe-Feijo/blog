@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Posts 
+{% endblock %}
+
+
+{% block content %}
+    <section>
+        <h1>Posts</h1>
+        <p>(Filtrando por: {{ cats }})</p>
+        {% if category_posts %}
+            {% for post in category_posts %}
+                <article class="post">
+                    <h2>
+                        <a href="{% url 'posts:page' slug=post.slug %}">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <p>{{ post.date }} por {{ post.author }}</p>
+                </article>
+            {% endfor %}
+        {% else %}
+        <P> Nenhum post encontrado com essa categoria. </p>
+        {% endif %}
+    </section>
+{% endblock %}

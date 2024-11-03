@@ -100,3 +100,8 @@ header {
     display: flex;
     justify-content: center;
 }
+
+.category-link {
+    text-decoration: none;
+    color: whitesmoke;
+}
