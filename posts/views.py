@@ -44,9 +44,9 @@ def post_new(request):
 #@permission_required('posts.update_post')
 def post_update(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    if request.method == "POST":
-        if post.author != request.user and not request.user.is_superuser:
+    if post.author != request.user and not request.user.is_superuser:
             return HttpResponseRedirect(reverse('posts:page', args=(post.slug, )))
+    if request.method == "POST":
         post.title = request.POST['title']
         post.body = request.POST['body']
         post.save()
@@ -57,9 +57,9 @@ def post_update(request, slug):
 @login_required(login_url="/users/login/")
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    if request.method == "POST":
-        if post.author != request.user and not request.user.is_superuser:
+    if post.author != request.user and not request.user.is_superuser:
             return HttpResponseRedirect(reverse('posts:page', args=(post.slug, )))
+    if request.method == "POST": 
         post.delete()
         return HttpResponseRedirect(reverse("posts:list"))
     return render(request, 'posts/post_delete.html', { 'post':post })
